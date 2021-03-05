@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+    <div class="card">
+
+        <div class="card-header">
+            <H2>{{cardTitle}}</H2>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg"></p>
+            <form [formGroup]="registerForm">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Nombre de la cuenta</label>
+                        <input formControlName="accountName" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del cliente</label>
+                        <input formControlName="customerName" type="email" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Responsable de la cuenta</label>
+                        <input formControlName="responsibleName" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Equipo</label>
+                        <input formControlName="idTeam" type="number" class="form-control" placeholder="">
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="card-footer" style="background-color: white;">
+                    <button type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button style="float:right;" *ngIf="showDelete;" type="submit" class="btn btn-danger"
+                        (click)="Delete()">Eliminar</button>
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+
+
+</div>

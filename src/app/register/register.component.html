@@ -1,0 +1,55 @@
+<!-- <div class="content-wrapper">
+ -->
+<section class="login-page" cz-shortcut-listen="true" style="min-height: 466px;">
+
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+
+                <H1>Nuevo usuario</H1>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg"></p>
+                <form [formGroup]="registerForm">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Nombre de usuario</label>
+                            <input formControlName="userName" type="text" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input formControlName="mail" type="email" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>Password(s)</label>
+                            <input formControlName="pass" type="password" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm password(s)</label>
+                            <input formControlName="confirmPass" type="password" class="form-control" placeholder="">
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary" (click)="Register()">Guardar</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+
+
+
+
+</section>
+<!-- </div>
+   -->

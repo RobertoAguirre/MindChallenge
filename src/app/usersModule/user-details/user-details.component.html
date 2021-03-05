@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+    <div class="card">
+
+        <div class="card-header">
+            <H2>{{cardTitle}}</H2>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg"></p>
+            <form [formGroup]="registerForm">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Nombre de usuario</label>
+                        <input formControlName="userName" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input formControlName="mail" type="email" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input formControlName="pass" type="password" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Contraseña</label>
+                        <input formControlName="confirmPass" type="password" class="form-control" placeholder="">
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+
+
+                <div class="card-footer" style="background-color: white;">
+                    <button type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button style="float:right;" *ngIf="showDelete;" type="submit" class="btn btn-danger"
+                        (click)="Delete()">Eliminar</button>
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
