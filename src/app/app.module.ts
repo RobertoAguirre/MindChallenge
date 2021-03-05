@@ -17,6 +17,7 @@ import { UserDetailsComponent } from './usersModule/user-details/user-details.co
 import { AccountsComponent } from './accountsModule/accounts/accounts.component';
 import { AccountsDetailsComponent } from './accountsModule/accounts-details/accounts-details.component';
 import { TeamsComponent } from './teamsModule/teams/teams.component';
+import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TeamsComponent } from './teamsModule/teams/teams.component';
     UserDetailsComponent,
     AccountsComponent,
     AccountsDetailsComponent,
-    TeamsComponent
+    TeamsComponent,
+    TeamsDetailsComponent
   ],
   imports: [
     BrowserModule,

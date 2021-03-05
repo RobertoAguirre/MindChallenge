@@ -13,7 +13,7 @@ export class UsersComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public apiService: ApiService,
+    public apiService: ApiService
   ) { }
 
   ngOnInit(): void {

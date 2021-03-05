@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+    <div class="card">
+
+        <div class="card-body">
+            <form [formGroup]="registerForm">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Nombre del équipo</label>
+                        <input formControlName="teamName" type="text" class="form-control" placeholder="">
+                    </div>
+
+                    <div class="row">
+                        <div class="card col-lg-6">
+                            <div class="card-header">Usuarios en el equipo</div>
+                            <div class="card-body">
+                                <ul style="list-style-type:none;">
+                                    <li (click)=KickFromTeam(teamMember) *ngFor="let teamMember of teamMembers">
+                                        {{teamMember.userName}} <i style="color:red;" class="fa fa-times"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card col-lg-6">
+                            <div class="card-header">Usuarios registrados</div>
+                            <div class="card-body">
+                                <ul style="list-style-type:none;">
+                                    <li (click)=PassToTeam(user) *ngFor="let user of users"><i style="color: green;"
+                                            class="fa fa-arrow-left"></i>
+                                        {{user.userName}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="card-footer" style="background-color: white;">
+                    <button type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button style="float:right;" *ngIf="showDelete;" type="submit" class="btn btn-danger"
+                        (click)="Delete()">Eliminar</button>
+                </div>
+
+
+            </form>
+        </div>
+
+
+    </div>
+
+
+</div>

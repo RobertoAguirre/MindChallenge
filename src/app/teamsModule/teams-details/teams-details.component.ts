@@ -5,22 +5,20 @@ import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
-  selector: 'app-accounts-details',
-  templateUrl: './accounts-details.component.html',
-  styleUrls: ['./accounts-details.component.css']
+  selector: 'app-teams-details',
+  templateUrl: './teams-details.component.html',
+  styleUrls: ['./teams-details.component.css']
 })
-export class AccountsDetailsComponent implements OnInit {
-
+export class TeamsDetailsComponent implements OnInit {
   private createOrDetails;
   public cardTitle;
-  public account;
+  public team;
   public showDelete;
+  public users = [];
+  public teamMembers = [];
 
   registerForm = this.formBuilder.group({
-    accountName: ['', Validators.required],
-    customerName: ['', Validators.required],
-    responsibleName: ['', Validators.required],
-    idTeam: ['', Validators.required]
+    teamName: ['', Validators.required]
   })
 
   constructor(
@@ -30,39 +28,66 @@ export class AccountsDetailsComponent implements OnInit {
     private router: Router,
     public formBuilder: FormBuilder
   ) {
-
     this.registerForm = new FormGroup({
-      accountName: new FormControl,
-      customerName: new FormControl,
-      responsibleName: new FormControl,
-      idTeam: new FormControl
+      teamName: new FormControl
     })
-
-
-
   }
 
+
+
+
+
   ngOnInit(): void {
+    this.GetUsers();
     this.route.queryParams.subscribe(params => {
       this.createOrDetails = params['item'];
       if (this.createOrDetails === 'new') {
-        this.cardTitle = 'Nueva cuenta';
+        this.cardTitle = 'Nuevo equipo';
         this.showDelete = false;
       } else {
         this.showDelete = true;
-        this.cardTitle = 'Detalles de la cuenta';
+        this.cardTitle = 'Detalles de la equipo';
         let _item = JSON.parse(params['item']);
-        let idAccount = _item.idAccount;
-        this.GetAccount(idAccount);
+        let idTeams = _item.idTeams;
+        this.GetTeam(idTeams);
       }
     });
   }
 
-  GetAccount(idAccount) {
+  PassToTeam(item) {
+    this.teamMembers.push(item);
+  }
+
+  KickFromTeam(value) {
+    //arr = arr.filter(item => item !== value)
+    this.teamMembers = this.teamMembers.filter(item => item !== value)
+    //this.teamMembers.splice(item);
+  }
+
+  GetUsers() {
+
+    //BuscaUsuario 'admin2','p4ss'
+
     let data = {
       "appname": "MINDCHALLENGE",
-      "sp": 'GetAccount',
-      "params": [idAccount]
+      "sp": 'GetAllUsers',
+      "params": []
+    }
+
+    this.apiService.runSp(data).subscribe((response) => {
+      let _response;
+      _response = response;
+
+      this.users = _response.success.recordset;
+    })
+
+  }
+
+  GetTeam(idTeams) {
+    let data = {
+      "appname": "MINDCHALLENGE",
+      "sp": 'GetTeam',
+      "params": [idTeams]
     }
 
 
@@ -70,13 +95,11 @@ export class AccountsDetailsComponent implements OnInit {
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
       _response = response;
-      this.account = _response.success.recordset[0];
+      this.team = _response.success.recordset[0];
       this.registerForm.setValue({
-        accountName: this.account.accountName,
-        customerName: this.account.customerName,
-        responsibleName: this.account.responsibleName,
-        idTeam: this.account.idTeam
+        teamName: this.team.teamName
       })
+      this.teamMembers = JSON.parse(this.team.teamMembers);
 
     })
   }
@@ -89,45 +112,48 @@ export class AccountsDetailsComponent implements OnInit {
     }
   }
 
+
+
   Update() {
+
+    let _teamMembers = JSON.stringify(this.teamMembers);
+
     let data = {
       "appname": "MINDCHALLENGE",
-      "sp": 'UpdateAccount',
-      "params": [`${this.account.idAccount},`,
-      `'${this.registerForm.value.accountName}',`,
-      `'${this.registerForm.value.customerName}',`,
-      `'${this.registerForm.value.responsibleName}',`,
-      `${this.registerForm.value.idTeam}`]
+      "sp": 'UpdateTeam',
+      "params": [`${this.team.idTeams},`,
+      `'${this.registerForm.value.teamName}',`, `'${_teamMembers}'`]
     }
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
       _response = response;
       if (_response.success.rowsAffected[0] >= 1) {
         alert("Cambios guardados con éxito");
-        this.router.navigate(['accounts']);
+        this.router.navigate(['teams']);
       } else {
 
       }
+
     })
   }
 
   Register() {
+
+    let _teamMembers = JSON.stringify(this.teamMembers);
+
     let data = {
       "appname": "MINDCHALLENGE",
-      "sp": 'SaveAccount',
-      "params": [`'${this.registerForm.value.accountName}',`,
-      `'${this.registerForm.value.customerName}',`,
-      `'${this.registerForm.value.responsibleName}',`,
-      `${this.registerForm.value.idTeam}`]
+      "sp": 'SaveTeam',
+      "params": [`'${this.registerForm.value.teamName}',`, `'${_teamMembers}'`]
     }
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
       _response = response;
-      if (_response.success.idAccount != -1) {
-        alert("Cuenta registrado exitosamente");
-        this.router.navigate(['accounts']);
+      if (_response.success.idTeams != -1) {
+        alert("Equipo registrado exitosamente");
+        this.router.navigate(['teams']);
       } else {
-        alert("La cuenta ya existe");
+        alert("El equipo ya existe");
       }
 
     })
@@ -139,8 +165,8 @@ export class AccountsDetailsComponent implements OnInit {
 
       let data = {
         "appname": "MINDCHALLENGE",
-        "sp": 'DeleteAccount',
-        "params": [this.account.idAccount]
+        "sp": 'DeleteTeam',
+        "params": [this.team.idTeams]
       }
 
       this.apiService.runSp(data).subscribe((response) => {
@@ -148,10 +174,10 @@ export class AccountsDetailsComponent implements OnInit {
         _response = response;
         if (_response.success.idAccount != -1) {
           this.registerForm.reset();
-          alert("Usuario eliminado exitosamente");
-          this.router.navigate(['accounts']);
+          alert("Equipo eliminado exitosamente");
+          this.router.navigate(['teams']);
         } else {
-          alert("Error al eliminar el usuario");
+          alert("Error al eliminar el equipo");
         }
       })
 
@@ -159,5 +185,6 @@ export class AccountsDetailsComponent implements OnInit {
 
     }
   }
+
 
 }
