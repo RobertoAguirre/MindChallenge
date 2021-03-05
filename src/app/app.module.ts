@@ -16,6 +16,7 @@ import { KeysPipe } from './keys.pipe';
 import { UserDetailsComponent } from './usersModule/user-details/user-details.component';
 import { AccountsComponent } from './accountsModule/accounts/accounts.component';
 import { AccountsDetailsComponent } from './accountsModule/accounts-details/accounts-details.component';
+import { TeamsComponent } from './teamsModule/teams/teams.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AccountsDetailsComponent } from './accountsModule/accounts-details/acco
     KeysPipe,
     UserDetailsComponent,
     AccountsComponent,
-    AccountsDetailsComponent
+    AccountsDetailsComponent,
+    TeamsComponent
   ],
   imports: [
     BrowserModule,
