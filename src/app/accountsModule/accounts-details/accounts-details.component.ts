@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-accounts-details',
@@ -15,13 +16,15 @@ export class AccountsDetailsComponent implements OnInit {
   public cardTitle;
   public account;
   public showDelete;
-
-  registerForm = this.formBuilder.group({
-    accountName: ['', Validators.required],
-    customerName: ['', Validators.required],
-    responsibleName: ['', Validators.required],
-    idTeam: ['', Validators.required]
-  })
+  /* 
+    registerForm = new FormGroup({
+      accountName: new FormControl(''),
+      customerName: new FormControl(''),
+      responsibleName: new FormControl(''),
+      idTeam: new FormControl(1)
+    })
+   */
+  registerForm = new FormGroup({})
 
   constructor(
     private route: ActivatedRoute,
@@ -31,13 +34,19 @@ export class AccountsDetailsComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
 
-    this.registerForm = new FormGroup({
+    /* this.registerForm = new FormGroup({
       accountName: new FormControl,
       customerName: new FormControl,
       responsibleName: new FormControl,
       idTeam: new FormControl
-    })
+    }) */
 
+    this.registerForm = this.formBuilder.group({
+      accountName: ['', Validators.required],
+      customerName: [''],
+      responsibleName: [''],
+      idTeam: [1]
+    })
 
 
   }
