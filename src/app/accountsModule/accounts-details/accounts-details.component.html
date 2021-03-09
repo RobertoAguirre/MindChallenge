@@ -12,23 +12,102 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Nombre de la cuenta</label>
-                        <input id="accountName" required formControlName="accountName" type="text" class="form-control"
-                            placeholder="">
+                        <input id="accountName" formControlName="accountName" minlength="3" maxlength="50" type="text"
+                            class="form-control" placeholder="">
+
+                        <div *ngIf="getControl.accountName.invalid && (getControl.accountName.dirty || getControl.accountName.touched)"
+                            class="alert alert-danger">
+
+                            <div *ngIf="getControl.accountName.errors.required">
+                                Agregue el nombre de la cuenta.
+                            </div>
+                            <div *ngIf="getControl.accountName.errors.minlength">
+                                El nombre de la cuenta debe tener al menos tres carácteres
+                            </div>
+                            <div *ngIf="getControl.accountName.errors.maxlength">
+                                Nombre de cuenta demasiado largo
+                            </div>
+
+
+                        </div>
 
                     </div>
                     <div class="form-group">
                         <label>Nombre del cliente</label>
-                        <input formControlName="customerName" required type="email" class="form-control" placeholder="">
+                        <input id="customerName" name="customerName" formControlName="customerName" required
+                            type="email" class="form-control" placeholder="">
+                        <div *ngIf="getControl.customerName.invalid && (getControl.customerName.dirty || getControl.customerName.touched)"
+                            class="alert alert-danger">
+
+                            <div *ngIf="getControl.customerName.errors.required">
+                                Agregue el nombre del cliente.
+                            </div>
+                            <div *ngIf="getControl.customerName.errors.minlength">
+                                El nombre del cliente debe tener al menos tres carácteres
+                            </div>
+                            <div *ngIf="getControl.customerName.errors.maxlength">
+                                Nombre de cliente demasiado largo
+                            </div>
+
+
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Responsable de la cuenta</label>
-                        <input formControlName="responsibleName" required type="text" class="form-control"
-                            placeholder="">
+                        <input id="responsibleName" name="responsibleName" formControlName="responsibleName" required
+                            type="text" class="form-control" placeholder="">
+                        <div *ngIf="getControl.responsibleName.invalid && (getControl.responsibleName.dirty || getControl.responsibleName.touched)"
+                            class="alert alert-danger">
+
+                            <div *ngIf="getControl.responsibleName.errors.required">
+                                Agregue el nombre del responsable.
+                            </div>
+                            <div *ngIf="getControl.responsibleName.errors.minlength">
+                                El nombre del responsable debe tener al menos tres carácteres
+                            </div>
+                            <div *ngIf="getControl.responsibleName.errors.maxlength">
+                                Nombre de responsable demasiado largo
+                            </div>
+
+
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Equipo</label>
-                        <input formControlName="idTeam" required type="number" class="form-control" placeholder="">
+
+
+                    <div  class="form-group">
+                        <label for="website">Equipo</label>
+                        <select class="custom-select" (change)="changeTeam($event)" formControlName="idTeam"id="idTeam">
+                            <option value="" disabled>Elija equipo</option>
+                            <option *ngFor="let team of teamsDataset" [value]="team.idTeams">{{team.teamName}}</option>
+                        </select>
+                        <div *ngIf="getControl.idTeam.touched &amp;&amp; getControl.idTeam.invalid" class="alert alert-danger">
+                            <div *ngIf="getControl.idTeam.errors.required">Seleccione un equipo</div>
+                        </div>
+
                     </div>
+
+<!--                     <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Equipo actual</label>
+                            <input id="customerName" name="customerName" formControlName="customerName" required
+                                type="email" class="form-control" placeholder="">
+                        </div>
+    
+                        <div *ngIf="showDelete" class="form-group col-lg-6">
+                            <label for="website">Equipo</label>
+                            <select class="custom-select" (change)="changeTeam($event)" formControlName="idTeam" id="idTeam">
+                                <option value="" disabled>Elija equipo</option>
+                                <option *ngFor="let team of teamsDataset" [value]="team.idTeams">{{team.teamName}}</option>
+                            </select>
+                            <div *ngIf="getControl.idTeam.touched &amp;&amp; getControl.idTeam.invalid" class="alert alert-danger">
+                                <div *ngIf="getControl.idTeam.errors.required">Seleccione un equipo</div>
+                            </div>
+    
+                        </div>
+
+                    </div> -->
+
+
 
                 </div>
 

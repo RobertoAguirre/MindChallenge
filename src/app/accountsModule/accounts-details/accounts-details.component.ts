@@ -3,7 +3,6 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-accounts-details',
@@ -16,15 +15,11 @@ export class AccountsDetailsComponent implements OnInit {
   public cardTitle;
   public account;
   public showDelete;
-  /* 
-    registerForm = new FormGroup({
-      accountName: new FormControl(''),
-      customerName: new FormControl(''),
-      responsibleName: new FormControl(''),
-      idTeam: new FormControl(1)
-    })
-   */
-  registerForm = new FormGroup({})
+  public teamsDataset = []
+  public team;
+  public selectedTeamId;
+  public defaultTeam;
+  registerForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,24 +29,28 @@ export class AccountsDetailsComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
 
-    /* this.registerForm = new FormGroup({
-      accountName: new FormControl,
-      customerName: new FormControl,
-      responsibleName: new FormControl,
-      idTeam: new FormControl
-    }) */
 
-    this.registerForm = this.formBuilder.group({
-      accountName: ['', Validators.required],
-      customerName: [''],
-      responsibleName: [''],
-      idTeam: [1]
-    })
 
 
   }
 
+  changeTeam(e){
+    //alert(e.target.value);
+    this.selectedTeamId = e.target.value;
+
+  }
+
   ngOnInit(): void {
+
+    this.registerForm = this.formBuilder.group({
+      accountName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      customerName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      responsibleName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      idTeam: new FormControl([''],Validators.required)
+    })
+
+
+
     this.route.queryParams.subscribe(params => {
       this.createOrDetails = params['item'];
       if (this.createOrDetails === 'new') {
@@ -62,9 +61,35 @@ export class AccountsDetailsComponent implements OnInit {
         this.cardTitle = 'Detalles de la cuenta';
         let _item = JSON.parse(params['item']);
         let idAccount = _item.idAccount;
+        this.GetTeams();
         this.GetAccount(idAccount);
       }
     });
+
+ 
+  }
+
+  get getControl(){
+    return this.registerForm.controls;
+  }
+
+  GetTeams() {
+
+    //BuscaUsuario 'admin2','p4ss'
+
+    let data = {
+      "appname": "MINDCHALLENGE",
+      "sp": 'GetTeams',
+      "params": []
+    }
+
+    this.apiService.runSp(data).subscribe((response) => {
+      let _response;
+      _response = response;
+
+      this.teamsDataset = _response.success.recordset;
+    })
+
   }
 
   GetAccount(idAccount) {
@@ -87,6 +112,11 @@ export class AccountsDetailsComponent implements OnInit {
         idTeam: this.account.idTeam
       })
 
+      //this.defaultTeam = this.teamsDataset.filter(item => item.idTeams === this.account.idTeam);
+      //let existe = this.teamsDataset.indexOf(this.defaultTeam[0]);
+      //alert(existe);
+      //this.registerForm.controls['idTeam'].setValue(this.defaultTeam[0].teamName,{onlySelf:true});
+
     })
   }
 
@@ -106,7 +136,7 @@ export class AccountsDetailsComponent implements OnInit {
       `'${this.registerForm.value.accountName}',`,
       `'${this.registerForm.value.customerName}',`,
       `'${this.registerForm.value.responsibleName}',`,
-      `${this.registerForm.value.idTeam}`]
+      `${this.selectedTeamId}`]
     }
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
@@ -127,7 +157,7 @@ export class AccountsDetailsComponent implements OnInit {
       "params": [`'${this.registerForm.value.accountName}',`,
       `'${this.registerForm.value.customerName}',`,
       `'${this.registerForm.value.responsibleName}',`,
-      `${this.registerForm.value.idTeam}`]
+      `${this.selectedTeamId}`]
     }
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
