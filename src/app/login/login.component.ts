@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { getLocaleMonthNames } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
+import Swal from 'sweetalert2';
 //import { AppComponent } from '../app.component';
 @Component({
   selector: 'app-login',
@@ -64,7 +65,8 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('id', _response.id);
 
       if (_response.acceso !== true) {
-        alert(_response.message);
+        Swal.fire('Error', `${_response.message}`, 'error')
+        //alert(_response.message);
       } else {
         this.token = _response.token;
         this.id = _response.id;

@@ -1,0 +1,14 @@
+<div class="modal-header" class="{{my_modal_color}}">
+    <h4 class="modal-title">{{my_modal_title}}</h4>
+    <div class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p> {{my_modal_content}}</p>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-primary" (click)="activeModal.close('Close click')">Close</button> -->
+    <button type="button" class="btn btn-outline-black" (click)="activeModal.close('Close click')">Cerrar</button>
+  
+  </div>

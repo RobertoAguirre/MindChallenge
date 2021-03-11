@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-details',
@@ -119,16 +120,18 @@ export class UserDetailsComponent implements OnInit {
         _response = response;
         if (_response.success >= 1) {
           localStorage.setItem('id', _response.success.idUser);
-          alert("Usuario modificado exitosamente");
+          Swal.fire('Exito', 'Usuario modificado exitosamente', 'success');
+          //alert("Usuario modificado exitosamente");
           this.router.navigate(['users']);
         } else {
-          alert("Error al modificar usuario");
+          Swal.fire('Error', 'Error al modificar usuario', 'error');
+          //alert("Error al modificar usuario");
         }
 
       })
     } else {
-
-      alert("Las contraseñas no coinciden, intente de nuevo");
+      Swal.fire('Error', 'Las contraseñas no coinciden, intente de nuevo', 'error');
+      //alert("Las contraseñas no coinciden, intente de nuevo");
 
     }
 
@@ -153,16 +156,18 @@ export class UserDetailsComponent implements OnInit {
         _response = response;
         if (_response.success.idUser != -1) {
           localStorage.setItem('id', _response.success.idUser);
-          alert("Usuario registrado exitosamente");
+          Swal.fire('Éxito', 'Usuario registrado exitosamente', 'success')
+          //alert("Usuario registrado exitosamente");
           this.router.navigate(['users']);
         } else {
-          alert("el usuario ya existe");
+          Swal.fire('Información', 'Something went wrong!', 'info')
+          //alert("el usuario ya existe");
         }
 
       })
     } else {
-
-      alert("Las contraseñas no coinciden, intente de nuevo");
+      Swal.fire('Error', 'Las contraseñas no coinciden, intente de nuevo', 'error');
+      //alert("Las contraseñas no coinciden, intente de nuevo");
 
     }
 
@@ -170,7 +175,29 @@ export class UserDetailsComponent implements OnInit {
 
   Delete() {
 
-    let r = confirm('Esta a punto de borrar un usuario,¿Está seguro?');
+
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Esta a punto de borrar un usuario,¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar usuario!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        console.log('Clicked Yes, File deleted!');
+
+      } else if (result.isDismissed) {
+
+        console.log('Clicked No, File is safe!');
+
+      }
+    })
+
+
+/*     let r = confirm('Esta a punto de borrar un usuario,¿Está seguro?');
     if (r === true) {
 
       let data = {
@@ -201,7 +228,7 @@ export class UserDetailsComponent implements OnInit {
 
     } else {
 
-    }
+    } */
 
 
 

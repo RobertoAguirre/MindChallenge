@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-teams-details',
@@ -186,7 +187,8 @@ export class TeamsDetailsComponent implements OnInit {
       let _response;
       _response = response;
       if (_response.success.rowsAffected[0] >= 1) {
-        alert("Cambios guardados con éxito");
+        Swal.fire('Éxito', 'Cambios guardados con éxito!', 'success');
+        //alert("Cambios guardados con éxito");
         this.router.navigate(['teams']);
       } else {
 
@@ -224,51 +226,92 @@ export class TeamsDetailsComponent implements OnInit {
             alreadySaved++;
 
             if (alreadySaved === this.teamMembers.length) {
-              alert("Equipo registrado exitosamente");
+              Swal.fire('Éxito', 'Equipo registrado con éxito', 'success');
+              //alert("Equipo registrado exitosamente");
               this.router.navigate(['teams']);
             }
           })
 
-
-
-
         }
 
-
-
-
       } else {
-        alert("El equipo ya existe");
+        Swal.fire('Información', 'El equipo ya existe', 'info');
+        //alert("El equipo ya existe");
       }
 
     })
   }
 
   Delete() {
-    let r = confirm('Esta a punto de borrar una cuenta, ¿Está seguro?');
-    if (r === true) {
 
-      let data = {
-        "appname": "MINDCHALLENGE",
-        "sp": 'DeleteTeam',
-        "params": [this.team.idTeams]
-      }
 
-      this.apiService.runSp(data).subscribe((response) => {
-        let _response;
-        _response = response;
-        if (_response.success.idAccount != -1) {
-          this.registerForm.reset();
-          alert("Equipo eliminado exitosamente");
-          this.router.navigate(['teams']);
-        } else {
-          alert("Error al eliminar el equipo");
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Esta a punto de eliminar un equipo, ¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar equipo!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        let data = {
+          "appname": "MINDCHALLENGE",
+          "sp": 'DeleteTeam',
+          "params": [this.team.idTeams]
         }
-      })
+  
+        this.apiService.runSp(data).subscribe((response) => {
+          let _response;
+          _response = response;
+          if (_response.success.idAccount != -1) {
+            this.registerForm.reset();
+            Swal.fire('Éxito', 'Equipo eliminado exitosamente"', 'success');
+            //alert("Equipo eliminado exitosamente");
+            this.router.navigate(['teams']);
+          } else {
+            Swal.fire('Error','Error al eliminar el equipo','error');
+            //alert("Error al eliminar el equipo");
+          }
+        })
 
-    } else {
+      } else if (result.isDismissed) {
 
-    }
+        console.log('Clicked No, File is safe!');
+
+      }
+    })
+
+
+
+
+    /*     let r = confirm('Esta a punto de borrar una cuenta, ¿Está seguro?');
+        if (r === true) {
+    
+          let data = {
+            "appname": "MINDCHALLENGE",
+            "sp": 'DeleteTeam',
+            "params": [this.team.idTeams]
+          }
+    
+          this.apiService.runSp(data).subscribe((response) => {
+            let _response;
+            _response = response;
+            if (_response.success.idAccount != -1) {
+              this.registerForm.reset();
+              Swal.fire('Éxito', 'Equipo eliminado exitosamente"', 'success');
+              //alert("Equipo eliminado exitosamente");
+              this.router.navigate(['teams']);
+            } else {
+              Swal.fire('Error','Error al eliminar el equipo','error');
+              //alert("Error al eliminar el equipo");
+            }
+          })
+    
+        } else {
+    
+        } */
   }
 
 

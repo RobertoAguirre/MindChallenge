@@ -22,6 +22,8 @@ import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { TeamsMovementsComponent } from './teamsModule/teams-movements/teams-movements.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from './reusable/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ProfileComponent } from './profile/profile.component';
     TeamsComponent,
     TeamsDetailsComponent,
     TeamsMovementsComponent,
-    ProfileComponent
+    ProfileComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +51,12 @@ import { ProfileComponent } from './profile/profile.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgbModule
    /*   BackButtonDisableModule.forRoot() */
+  ],
+  entryComponents: [
+    ModalComponent
   ],
   providers: [
     {

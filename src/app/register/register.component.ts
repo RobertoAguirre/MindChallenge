@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -64,16 +64,18 @@ export class RegisterComponent implements OnInit {
         _response = response;
         if (_response.success.idUser != -1) {
           localStorage.setItem('id', _response.success.idUser);
-          alert("Usuario registrado exitosamente");
+          Swal.fire('Éxito', 'Usuario registrado con éxito!', 'success');
           this.router.navigate(['login']);
         } else {
-          alert("el usuario ya existe");
+          Swal.fire('Información', 'El usuario ya existe', 'info');
+          //alert("el usuario ya existe");
         }
 
       })
     } else {
 
-      alert("Las contraseñas no coinciden, intente de nuevo");
+      Swal.fire('Error', 'Las contraseñas no coinciden, intente de nuevo', 'error');
+      //alert("Las contraseñas no coinciden, intente de nuevo");
 
     }
 

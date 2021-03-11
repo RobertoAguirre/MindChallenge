@@ -3,6 +3,9 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../reusable/modal/modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-accounts-details',
@@ -26,7 +29,8 @@ export class AccountsDetailsComponent implements OnInit {
     private apiService: ApiService,
     private authService: AuthService,
     private router: Router,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {
 
 
@@ -34,7 +38,7 @@ export class AccountsDetailsComponent implements OnInit {
 
   }
 
-  changeTeam(e){
+  changeTeam(e) {
     //alert(e.target.value);
     this.selectedTeamId = e.target.value;
 
@@ -46,7 +50,7 @@ export class AccountsDetailsComponent implements OnInit {
       accountName: new FormControl('', [Validators.required, Validators.minLength(3)]),
       customerName: new FormControl('', [Validators.required, Validators.minLength(3)]),
       responsibleName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      idTeam: new FormControl([''],Validators.required)
+      idTeam: new FormControl([''], Validators.required)
     })
 
 
@@ -67,10 +71,10 @@ export class AccountsDetailsComponent implements OnInit {
       }
     });
 
- 
+
   }
 
-  get getControl(){
+  get getControl() {
     return this.registerForm.controls;
   }
 
@@ -143,7 +147,8 @@ export class AccountsDetailsComponent implements OnInit {
       let _response;
       _response = response;
       if (_response.success.rowsAffected[0] >= 1) {
-        alert("Cambios guardados con éxito");
+        Swal.fire('Cambios guardados con éxito')
+        //alert("Cambios guardados con éxito");
         this.router.navigate(['accounts']);
       } else {
 
@@ -164,43 +169,98 @@ export class AccountsDetailsComponent implements OnInit {
       let _response;
       _response = response;
       if (_response.success.recordset[0].idAccount === null) {  //_response.success.idAccount !== -1
-         alert("La cuenta ya existe");
-        
-      } else if( _response.success.recordset[0].idAccount !== -1 && _response.success.recordset[0].idAccount) { //_response.success.idAccount === null
-       alert("Cuenta registrado exitosamente");
-       this.router.navigate(['accounts']);
-      }else{
-        alert("error al guardar datos");
+        //alert("La cuenta ya existe");
+        Swal.fire('Información', 'La cuenta ya existe', 'info')
+
+      } else if (_response.success.recordset[0].idAccount !== -1 && _response.success.recordset[0].idAccount) { //_response.success.idAccount === null
+        //alert("Cuenta registrado exitosamente");
+        Swal.fire('Éxito', 'Cuenta registrada correctamente', 'success')
+        this.router.navigate(['accounts']);
+      } else {
+        Swal.fire('Error', 'Error al guardar datos!', 'error')
+        //alert("error al guardar datos");
       }
 
     })
   }
 
   Delete() {
-    let r = confirm('Esta a punto de borrar una cuenta, ¿Está seguro?');
-    if (r === true) {
+    Swal.fire({
+      title: 'Eliminando cuenta...',
+      text: 'Esta a punto de borrar una cuenta, ¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, borrar cuenta',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-      let data = {
-        "appname": "MINDCHALLENGE",
-        "sp": 'DeleteAccount',
-        "params": [this.account.idAccount]
-      }
-
-      this.apiService.runSp(data).subscribe((response) => {
-        let _response;
-        _response = response;
-        if (_response.success.idAccount != -1) {
-          this.registerForm.reset();
-          alert("Usuario eliminado exitosamente");
-          this.router.navigate(['accounts']);
-        } else {
-          alert("Error al eliminar el usuario");
+        let data = {
+          "appname": "MINDCHALLENGE",
+          "sp": 'DeleteAccount',
+          "params": [this.account.idAccount]
         }
-      })
 
-    } else {
+        this.apiService.runSp(data).subscribe((response) => {
+          let _response;
+          _response = response;
+          if (_response.success.idAccount != -1) {
+            this.registerForm.reset();
+            //this.openSuccess('Éxito','Cuenta eliminada exitosamente');
+            //alert("Cuenta eliminada exitosamente");
+            Swal.fire('Exito', 'Cuenta eliminada!', 'success')
+            this.router.navigate(['accounts']);
+          } else {
+            Swal.fire('Error!', 'Error al aliminar la cuenta', 'error')
+          }
+        })
 
-    }
+
+      } else if (result.isDismissed) {
+
+        console.log('Clicked No, File is safe!');
+
+      }
+    })
+
+
+
+
+
+
+
+    /*     let r = confirm('Esta a punto de borrar una cuenta, ¿Está seguro?');
+        if (r === true) {
+    
+          let data = {
+            "appname": "MINDCHALLENGE",
+            "sp": 'DeleteAccount',
+            "params": [this.account.idAccount]
+          }
+    
+          this.apiService.runSp(data).subscribe((response) => {
+            let _response;
+            _response = response;
+            if (_response.success.idAccount != -1) {
+              this.registerForm.reset();
+              //this.openSuccess('Éxito','Cuenta eliminada exitosamente');
+              alert("Cuenta eliminada exitosamente");
+              this.router.navigate(['accounts']);
+            } else {
+              alert("Error al eliminar el usuario");
+            }
+          })
+    
+        } else {
+    
+        } */
+  }
+
+  openSuccess(title, content) {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.my_modal_title = title,
+      modalRef.componentInstance.my_modal_content = content;
+    modalRef.componentInstance.my_modal_color = 'success-title';
   }
 
 }

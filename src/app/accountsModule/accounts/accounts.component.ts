@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-
+import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../reusable/modal/modal.component';
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -15,7 +16,8 @@ export class AccountsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public apiService: ApiService
+    public apiService: ApiService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +50,13 @@ export class AccountsComponent implements OnInit {
 
       this.dataset = _response.success.recordset;
     })
+  }
+
+  openNormal() {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.my_modal_title = 'Titulo de modal';
+    modalRef.componentInstance.my_modal_content = 'Contenido normal';
+    modalRef.componentInstance.my_modal_color = 'normal-title';
   }
 
 }

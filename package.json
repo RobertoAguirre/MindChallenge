@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~11.2.3",
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.3",
+    "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "admin-lte": "^3.0.5",
     "angular-datatables": "^11.1.1",
     "angular-disable-browser-back-button": "^1.0.2",
@@ -26,6 +27,7 @@
     "datatables.net-dt": "^1.10.20",
     "jquery": "^3.4.1",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^9.17.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },

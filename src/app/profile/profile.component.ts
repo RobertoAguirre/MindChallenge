@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators } 
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -27,12 +27,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userId= localStorage.getItem('id');
+    this.userId = localStorage.getItem('id');
 
     this.showDelete = true;
     this.cardTitle = 'Perfil de usuario';
     this.registerForm = this.formBuilder.group({
-      fullname: new FormControl('',[Validators.required, Validators.minLength(8)]),
+      fullname: new FormControl('', [Validators.required, Validators.minLength(8)]),
       mail: new FormControl('', [Validators.required, Validators.minLength(7)]),
       englishLevel: new FormControl('', [Validators.required, Validators.minLength(2)]),
       techSkills: new FormControl([''], Validators.required),
@@ -40,20 +40,20 @@ export class ProfileComponent implements OnInit {
     })
     //first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
 
- /*    this.route.queryParams.subscribe(params => {
-      this.createOrDetails = params['item'];
-      if (this.createOrDetails === 'new') {
-
-        this.showDelete = false;
-
-      } else {
-        this.showDelete = true;
-
-        let _item = JSON.parse(params['item']);
-        let idAccount = _item.idAccount;
-
-      }
-    }); */
+    /*    this.route.queryParams.subscribe(params => {
+         this.createOrDetails = params['item'];
+         if (this.createOrDetails === 'new') {
+   
+           this.showDelete = false;
+   
+         } else {
+           this.showDelete = true;
+   
+           let _item = JSON.parse(params['item']);
+           let idAccount = _item.idAccount;
+   
+         }
+       }); */
 
     this.GetProfile();
 
@@ -77,10 +77,10 @@ export class ProfileComponent implements OnInit {
           mail: this.user.mail,
           englishLevel: this.user.englishLevel,
           techSkills: this.user.techSkills,
-          cvLink:this.user.cvLink
+          cvLink: this.user.cvLink
         })
 
-        this.actualLink =`${this.user.cvLink}`;
+        this.actualLink = `${this.user.cvLink}`;
 
       } else {
 
@@ -110,11 +110,12 @@ export class ProfileComponent implements OnInit {
       let _response;
       _response = response;
       if (_response.success.rowsAffected[0] >= 1) {
-        alert("Cambios guardados con éxito");
+        //alert("Cambios guardados con éxito");
+        Swal.fire('Éxito', 'Cambios guardados con éxito!', 'success');
 
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          this.router.onSameUrlNavigation = 'reload';
-          this.router.navigate(['../profile'], { relativeTo: this.route });
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate(['../profile'], { relativeTo: this.route });
         //this.router.navigate(['accounts']);
       } else {
 
