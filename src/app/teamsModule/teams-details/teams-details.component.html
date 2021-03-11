@@ -41,7 +41,7 @@
 
 
                 <div class="card-footer" style="background-color: white;">
-                    <button type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button [disabled]="!registerForm.valid" type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
                     <button style="float:right;" *ngIf="showDelete;" type="submit" class="btn btn-danger"
                         (click)="Delete()">Eliminar</button>
                 </div>

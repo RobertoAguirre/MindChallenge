@@ -56,6 +56,7 @@ export class AccountsDetailsComponent implements OnInit {
       if (this.createOrDetails === 'new') {
         this.cardTitle = 'Nueva cuenta';
         this.showDelete = false;
+        this.GetTeams();
       } else {
         this.showDelete = true;
         this.cardTitle = 'Detalles de la cuenta';
@@ -162,11 +163,14 @@ export class AccountsDetailsComponent implements OnInit {
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
       _response = response;
-      if (_response.success.idAccount != -1) {
-        alert("Cuenta registrado exitosamente");
-        this.router.navigate(['accounts']);
-      } else {
-        alert("La cuenta ya existe");
+      if (_response.success.recordset[0].idAccount === null) {  //_response.success.idAccount !== -1
+         alert("La cuenta ya existe");
+        
+      } else if( _response.success.recordset[0].idAccount !== -1 && _response.success.recordset[0].idAccount) { //_response.success.idAccount === null
+       alert("Cuenta registrado exitosamente");
+       this.router.navigate(['accounts']);
+      }else{
+        alert("error al guardar datos");
       }
 
     })

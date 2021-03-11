@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+/* import { BackButtonDisableModule } from 'angular-disable-browser-back-button'; */
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,9 @@ import { AccountsComponent } from './accountsModule/accounts/accounts.component'
 import { AccountsDetailsComponent } from './accountsModule/accounts-details/accounts-details.component';
 import { TeamsComponent } from './teamsModule/teams/teams.component';
 import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { TeamsMovementsComponent } from './teamsModule/teams-movements/teams-movements.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,9 @@ import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details
     AccountsComponent,
     AccountsDetailsComponent,
     TeamsComponent,
-    TeamsDetailsComponent
+    TeamsDetailsComponent,
+    TeamsMovementsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +48,16 @@ import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    DataTablesModule
+   /*   BackButtonDisableModule.forRoot() */
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

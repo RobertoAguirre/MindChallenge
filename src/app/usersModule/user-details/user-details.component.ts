@@ -16,14 +16,7 @@ export class UserDetailsComponent implements OnInit {
   public user;
   public showDelete;
 
-
-  registerForm = this.formBuilder.group({
-    userName: ['', Validators.required],
-    mail: ['', Validators.required],
-    pass: ['', Validators.required],
-    confirmPass: ['', Validators.required]
-  })
-
+  registerForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,11 +37,22 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.registerForm = this.formBuilder.group({
+      userName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      mail: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      pass: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      confirmPass: new FormControl([''],Validators.required)
+    })
+
+
+
     this.route.queryParams.subscribe(params => {
       this.createOrDetails = params['item'];
       if (this.createOrDetails === 'new') {
         this.cardTitle = 'Nuevo usuario';
         this.showDelete = false;
+        this.registerForm.reset();
       } else {
         this.showDelete = true;
         this.cardTitle = 'Detalles de usuario';
@@ -58,6 +62,11 @@ export class UserDetailsComponent implements OnInit {
       }
     });
   }
+
+  get getControl(){
+    return this.registerForm.controls;
+  }
+
 
   GetUser(idUser) {
     let data = {

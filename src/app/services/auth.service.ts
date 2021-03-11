@@ -27,4 +27,8 @@ export class AuthService {
     return this.Token;
   }
 
+  clearToken(){
+    this.Token = "";
+  }
+
 }

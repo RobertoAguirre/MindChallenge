@@ -1,0 +1,146 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+    <div class="card">
+
+        <div class="card-header">
+            <H2>{{cardTitle}}</H2>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg"></p>
+            <form [formGroup]="registerForm">
+                <div class="card-body">
+
+
+                    <div class="row">
+
+                        <div  class="col-lg-6">
+
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input id="fullname" formControlName="fullname" minlength="3" maxlength="50" type="text"
+                                    class="form-control" placeholder="">
+        
+                                <div *ngIf="getControl.fullname.invalid && (getControl.fullname.dirty || getControl.fullname.touched)"
+                                    class="alert alert-danger">
+        
+                                    <div *ngIf="getControl.fullname.errors.required">
+                                        Escriba su nombre.
+                                    </div>
+                                    <div *ngIf="getControl.fullname.errors.minlength">
+                                        El nombre debe tener al menos tres carácteres
+                                    </div>
+                                    <div *ngIf="getControl.fullname.errors.maxlength">
+                                        Nombre demasiado largo
+                                    </div>
+        
+        
+                                </div>
+        
+                            </div>
+    
+                        </div>
+                        <div  class="col-lg-4">
+                            <div class="form-group">
+                                <label>Correo</label>
+                                <input readonly id="mail" name="mail" formControlName="mail" required
+                                    type="email" class="form-control" placeholder="">
+          
+                            </div>
+
+                        </div>
+                        <div  class="col-lg-2">
+
+                            <div class="form-group">
+                                <label>Nivel de inglés</label>
+                                <input maxlength="2" id="englishLevel" name="englishLevel" formControlName="englishLevel" required
+                                    type="text" class="form-control" placeholder="">
+                                <div *ngIf="getControl.englishLevel.invalid && (getControl.englishLevel.dirty || getControl.englishLevel.touched)"
+                                    class="alert alert-danger">
+        
+                                    <div *ngIf="getControl.englishLevel.errors.required">
+                                        Agregue su nivel de inglés, p. ej.: C1.
+                                    </div>
+                                    <div *ngIf="getControl.englishLevel.errors.minlength">
+                                        El nivel de inglés tener al menos dos carácteres
+                                    </div>
+        
+        
+        
+                                </div>
+                            </div>
+    
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Conocimientos técnicos</label>
+                        <textarea id="techSkills" name="techSkills" formControlName="techSkills" required
+                            type="text" class="form-control" placeholder=""></textarea>
+                        <div *ngIf="getControl.techSkills.invalid && (getControl.techSkills.dirty || getControl.techSkills.touched)"
+                            class="alert alert-danger">
+
+                            <div *ngIf="getControl.techSkills.errors.required">
+                                Agregue el nombre del responsable.
+                            </div>
+                            <div *ngIf="getControl.techSkills.errors.minlength">
+                                El nombre del responsable debe tener al menos tres carácteres
+                            </div>
+                            <div *ngIf="getControl.techSkills.errors.maxlength">
+                                Nombre de responsable demasiado largo
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Link a formato de currículum</label>
+                       
+                        <input id="cvLink" name="cvLink" formControlName="cvLink" required
+                            type="text" class="form-control" placeholder="">
+                        <div *ngIf="getControl.cvLink.invalid && (getControl.cvLink.dirty || getControl.cvLink.touched)"
+                            class="alert alert-danger">
+
+                            <div *ngIf="getControl.cvLink.errors.required">
+                                Agregue el link al formato del currícullum en google drive.
+                            </div>
+                            <div *ngIf="getControl.cvLink.errors.minlength">
+                                El nombre del responsable debe tener al menos tres carácteres
+                            </div>
+                            <div *ngIf="getControl.cvLink.errors.maxlength">
+                                Nombre de responsable demasiado largo
+                            </div>
+
+
+                        </div>
+                        <p>
+                            <a target="_blank" href="{{actualLink}}">Formato de currículum</a>
+                        </p>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <div class="card-footer" style="background-color: white;">
+                    <button [disabled]="!registerForm.valid" type="submit" class="btn btn-primary"
+                        (click)="Save()">Guardar</button>
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+
+
+</div>

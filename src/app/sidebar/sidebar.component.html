@@ -17,21 +17,24 @@
            with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
+                    <a href="profile" class="nav-link">
+                        <i class="fas fa-user nav-icon"></i>
+                        <p>Perfil</p>
+                    </a>
+                </li>
+                <li *ngIf="role==1" class="nav-item">
                     <a href="users" class="nav-link">
                         <i class="fas fa-user nav-icon"></i>
                         <p>Usuarios</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="role==1" class="nav-item">
                     <a href="accounts" class="nav-link">
                         <i class="fas fa-file nav-icon"></i>
                         <p>Cuentas</p>
                     </a>
                 </li>
-
-
-
-                <li class="nav-item has-treeview menu-close">
+                <li *ngIf="role==1" class="nav-item has-treeview menu-close">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
@@ -44,7 +47,7 @@
                             <a href="teams" style="font-size: small;" class="nav-link">Gestión</a>
                         </li>
                         <li class="nav-item">
-                            <a style="font-size: small;" class="nav-link">Movimientos</a>
+                            <a href="teams-movements" style="font-size: small;" class="nav-link">Movimientos</a>
                         </li>
                     </ul>
                 </li>

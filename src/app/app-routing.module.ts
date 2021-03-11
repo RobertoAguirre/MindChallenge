@@ -4,11 +4,14 @@ import { AccountsDetailsComponent } from './accountsModule/accounts-details/acco
 import { AccountsComponent } from './accountsModule/accounts/accounts.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { TeamsDetailsComponent } from './teamsModule/teams-details/teams-details.component';
+import { TeamsMovementsComponent } from './teamsModule/teams-movements/teams-movements.component';
 import { TeamsComponent } from './teamsModule/teams/teams.component';
 import { UserDetailsComponent } from './usersModule/user-details/user-details.component';
 import { UsersComponent } from './usersModule/users/users.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: "full" },
@@ -20,7 +23,9 @@ const routes: Routes = [
   { path: 'accounts', component: AccountsComponent, pathMatch: "full" },
   { path: 'accounts-details', component: AccountsDetailsComponent, pathMatch: "full" },
   { path: 'teams', component: TeamsComponent, pathMatch: "full" },
-  { path: 'teams-details', component: TeamsDetailsComponent, pathMatch: "full" }
+  { path: 'teams-details', component: TeamsDetailsComponent, pathMatch: "full" },
+  { path: 'teams-movements', component: TeamsMovementsComponent, pathMatch: "full" },
+  { path: 'profile', component: ProfileComponent, pathMatch: "full" }
 
 ];
 

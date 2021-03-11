@@ -8,23 +8,23 @@
         </div>
         <div class="card-body">
             <p class="login-box-msg"></p>
-            <form [formGroup]="registerForm">
+            <form autocomplete="off" [formGroup]="registerForm">
                 <div class="card-body">
                     <div class="form-group">
                         <label>Nombre de usuario</label>
-                        <input formControlName="userName" type="text" class="form-control" placeholder="">
+                        <input id="userName" formControlName="userName" type="text" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input formControlName="mail" type="email" class="form-control" placeholder="">
+                        <input id="mail" formControlName="mail" type="email" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label>Contraseña</label>
-                        <input formControlName="pass" type="password" class="form-control" placeholder="">
+                        <input id="pass" required formControlName="pass" type="password" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label>Confirmar Contraseña</label>
-                        <input formControlName="confirmPass" type="password" class="form-control" placeholder="">
+                        <input id="confirmPass" required formControlName="confirmPass" type="password" class="form-control" placeholder="">
                     </div>
 
                 </div>
@@ -33,7 +33,7 @@
 
 
                 <div class="card-footer" style="background-color: white;">
-                    <button type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button [disabled]="!registerForm.valid" type="submit" class="btn btn-primary" (click)="Save()">Guardar</button>
                     <button style="float:right;" *ngIf="showDelete;" type="submit" class="btn btn-danger"
                         (click)="Delete()">Eliminar</button>
                 </div>

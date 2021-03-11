@@ -16,10 +16,9 @@ export class TeamsDetailsComponent implements OnInit {
   public showDelete;
   public users = [];
   public teamMembers = [];
+  public nextId;
 
-  registerForm = this.formBuilder.group({
-    teamName: ['', Validators.required]
-  })
+  registerForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +37,12 @@ export class TeamsDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.registerForm = this.formBuilder.group({
+      teamName: new FormControl('', [Validators.required, Validators.minLength(3)])
+    })
+
+
     this.GetUsers();
     this.route.queryParams.subscribe(params => {
       this.createOrDetails = params['item'];
@@ -55,13 +60,66 @@ export class TeamsDetailsComponent implements OnInit {
   }
 
   PassToTeam(item) {
-    this.teamMembers.push(item);
+
+    if (this.createOrDetails === 'new') {
+      this.teamMembers.push(item);
+    } else {
+      let data = {
+        "appname": "MINDCHALLENGE",
+        "sp": 'AddMemberToTeam',
+        "params": [`'${this.team.idTeams}',`, `'${item.idUser}'`]
+      }
+
+      this.apiService.runSp(data).subscribe((response) => {
+        let _response;
+        _response = response;
+        this.teamMembers.push(item);
+
+        this.nextId = _response.success.recordset;
+      })
+
+    }
+
   }
 
   KickFromTeam(value) {
-    //arr = arr.filter(item => item !== value)
-    this.teamMembers = this.teamMembers.filter(item => item !== value)
-    //this.teamMembers.splice(item);
+    if (this.createOrDetails === 'new') {
+      //arr = arr.filter(item => item !== value)
+      this.teamMembers = this.teamMembers.filter(item => item !== value)
+      //this.teamMembers.splice(item);
+    } else {
+      let data = {
+        "appname": "MINDCHALLENGE",
+        "sp": 'KickMemberFromTeam',
+        "params": [`'${value.idUser}',`, `'${this.team.idTeams}'`]
+      }
+
+      this.apiService.runSp(data).subscribe((response) => {
+        let _response;
+        _response = response;
+        this.teamMembers = this.teamMembers.filter(item => item !== value)
+
+        this.nextId = _response.success.recordset;
+      })
+
+    }
+
+
+  }
+
+  GetNextId() {
+    let data = {
+      "appname": "MINDCHALLENGE",
+      "sp": 'GetNextId',
+      "params": ['teams']
+    }
+
+    this.apiService.runSp(data).subscribe((response) => {
+      let _response;
+      _response = response;
+
+      this.nextId = _response.success.recordset;
+    })
   }
 
   GetUsers() {
@@ -137,8 +195,10 @@ export class TeamsDetailsComponent implements OnInit {
     })
   }
 
+
   Register() {
 
+    let alreadySaved = 0;
     let _teamMembers = JSON.stringify(this.teamMembers);
 
     let data = {
@@ -149,9 +209,34 @@ export class TeamsDetailsComponent implements OnInit {
     this.apiService.runSp(data).subscribe((response) => {
       let _response;
       _response = response;
-      if (_response.success.idTeams != -1) {
-        alert("Equipo registrado exitosamente");
-        this.router.navigate(['teams']);
+      if (_response.success.recordset[0].idTeam != -1) {
+        let idteam = _response.success.recordset[0].idTeam;
+        for (var i = 0; i < this.teamMembers.length; i++) {
+          let data = {
+            "appname": "MINDCHALLENGE",
+            "sp": "AddMemberToTeam",
+            "params": [`'${this.teamMembers[i].idUser}',`, `'${idteam}'`]
+          }
+
+          this.apiService.runSp(data).subscribe((response) => {
+            let _response;
+            _response = response;
+            alreadySaved++;
+
+            if (alreadySaved === this.teamMembers.length) {
+              alert("Equipo registrado exitosamente");
+              this.router.navigate(['teams']);
+            }
+          })
+
+
+
+
+        }
+
+
+
+
       } else {
         alert("El equipo ya existe");
       }

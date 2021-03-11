@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
 
   ) {
 
+    
+
     this.loginForm = new FormGroup({
       usuario: new FormControl,
       pass: new FormControl
@@ -66,17 +68,33 @@ export class LoginComponent implements OnInit {
       } else {
         this.token = _response.token;
         this.id = _response.id;
+        localStorage.setItem('tkn', this.token);
         this.authService.setToken(this.token);
         let tkn = this.authService.getToken();
         //alert(tkn);
 
 
-        localStorage.setItem('tkn', this.token);
-        localStorage.setItem('id', this.id);
+        let _data = {
+          "appname": "MINDCHALLENGE",
+          "sp": 'GetUser',
+          "params": [this.id]
+        }
 
-        this.id = localStorage.getItem('id');
-        //this.appComponent.GeneraMenu();
-        this.router.navigate(['home']); // tells them they've been logged out (somehow)
+        this.apiService.runSp(_data).subscribe((response) => {
+          let _response;
+          _response = response ;
+
+          let user = _response.success.recordset[0];
+          
+          localStorage.setItem('role',user.role);
+
+       
+          localStorage.setItem('id', this.id);
+
+          this.id = localStorage.getItem('id');
+          //this.appComponent.GeneraMenu();
+          this.router.navigate(['home']); // tells them they've been logged out (somehow)
+        })
 
       }
 

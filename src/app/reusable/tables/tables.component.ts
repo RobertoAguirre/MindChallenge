@@ -17,6 +17,7 @@ export class TablesComponent {
   @Input() dataset;
   @Input() metodoEditar;
   @Input() metodoEliminar;
+  @Input() showDetalles;
 
   constructor(
     private router: Router,
