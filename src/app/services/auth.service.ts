@@ -9,8 +9,8 @@ export class AuthService {
   constructor() { }
 
   isLoggedIn(): boolean {
-
-    if (this.Token !== undefined) {
+    this.Token = localStorage.getItem('tkn');
+    if (this.Token !== undefined && this.Token !== null) {
       return true;
     } else {
       return false;
@@ -20,15 +20,19 @@ export class AuthService {
   }
 
   setToken(tkn) {
+    tkn = tkn = localStorage.getItem('tkn');
     this.Token = tkn;
   }
 
   getToken() {
+    this.Token = localStorage.getItem('tkn');
     return this.Token;
   }
 
   clearToken(){
-    this.Token = "";
+     localStorage.setItem('tkn', '');
+   // this.Token = "";
+   //alert("paes por clear");
   }
 
 }

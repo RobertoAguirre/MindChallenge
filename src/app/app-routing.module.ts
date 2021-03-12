@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountsDetailsComponent } from './accountsModule/accounts-details/accounts-details.component';
 import { AccountsComponent } from './accountsModule/accounts/accounts.component';
+import { LoginGuard } from './guards/login.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -14,18 +15,18 @@ import { UsersComponent } from './usersModule/users/users.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: "full" },
+  { path: '', component: HomeComponent, pathMatch: "full",canActivate: [LoginGuard] },
   { path: 'login', component: LoginComponent, pathMatch: "full" },
   { path: 'register', component: RegisterComponent, pathMatch: "full" },
-  { path: 'home', component: HomeComponent, pathMatch: "full" },
-  { path: 'users', component: UsersComponent, pathMatch: "full" },
-  { path: 'user-details', component: UserDetailsComponent, pathMatch: "full" },
-  { path: 'accounts', component: AccountsComponent, pathMatch: "full" },
-  { path: 'accounts-details', component: AccountsDetailsComponent, pathMatch: "full" },
-  { path: 'teams', component: TeamsComponent, pathMatch: "full" },
-  { path: 'teams-details', component: TeamsDetailsComponent, pathMatch: "full" },
-  { path: 'teams-movements', component: TeamsMovementsComponent, pathMatch: "full" },
-  { path: 'profile', component: ProfileComponent, pathMatch: "full" }
+  { path: 'home', component: HomeComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'users', component: UsersComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'user-details', component: UserDetailsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'accounts', component: AccountsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'accounts-details', component: AccountsDetailsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'teams', component: TeamsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'teams-details', component: TeamsDetailsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'teams-movements', component: TeamsMovementsComponent, pathMatch: "full",canActivate: [LoginGuard]  },
+  { path: 'profile', component: ProfileComponent, pathMatch: "full",canActivate: [LoginGuard]  }
 
 ];
 
