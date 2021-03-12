@@ -46,7 +46,7 @@ import { ModalComponent } from './reusable/modal/modal.component';
     ModalComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
