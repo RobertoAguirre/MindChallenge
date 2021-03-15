@@ -53,9 +53,9 @@ export function app(): express.Express {
 
   return server;
 }
-
+//el puerto esta aca
 function run(): void {
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 80;
 
   // Start up the Node server
   const server = app();
